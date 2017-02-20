@@ -31,6 +31,36 @@ config.settings = {
 };
 var log = $$b.log;
 var data = $$b.data;
+data.store = store = {
+    bronko: {
+        version: '1.0.0',
+        accepts: 'json',
+        format: 'brut'
+    }
+};
+data.capture = function(name){
+    function parseWithKey(name,key){
+        return store[name].data[key];
+    }
+    function iterateData(data){
+        var accepts = ['attributes','class','content','id','parent','type'];
+        var type = data['type'];
+        var typeArray,d;
+        if(type.indexOf('.')>-1){
+            typeArray = type.split('.');
+        }
+        for(d in data){
+            console.log(d,data[d])
+        }
+    }
+    if(name !== undefined){
+        if(store[name] !== undefined){
+            if(store[name].key !== undefined){
+                iterateData(parseWithKey(name,store[name].key)[0]);
+            }
+        }
+    }
+}
 var flow = $$b.flow;
 flow.schema = {
     entry:{
@@ -42,7 +72,28 @@ flow.schema = {
 };
 var assistants = $$b.assistants;
 var ajax = $$b.ajax;
-ajax.init=function(){
+ajax.init=function(obj){
+    /*
+    pass object in the following format
+    {url:'the_url',name:'unique name for dataset',key:'optional key for data'}
+     */
+    if(typeof obj == 'object'){
+        $.ajax({
+            url:config.settings.ajax.src.root+obj.url,
+            method:config.settings.ajax.method,
+            success:function(data){
+                console.log(data);
+                if(obj.name !== undefined){
+                    store[obj.name] = {};
+                    store[obj.name]['key'] = obj.key || undefined;
+                    store[obj.name]['data'] = data;
+                }
+            },
+            error:function(){
+
+            }
+        })
+    }
 
 };
 ajax.parse=function(){
@@ -54,6 +105,12 @@ ajax.objectify=function(){
 var template = $$b.template;
 template.collection = collection = {
     html:{
-        div:'<div></div>'
+        div:'<div {#attributes}>{#content}</div>'
+    },
+    attributes:{
+        id:'id="{#id}"',
+        class:'class="{#class}"',
+        name:'name="{#name}"',
+        attributes:'{#key}="{#value}"'
     }
 };

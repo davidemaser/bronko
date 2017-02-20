@@ -1,0 +1,17 @@
+{
+  "structure": [
+    {
+      "type":"html.div",
+      "class":{
+        "base":"this_class",
+        "hover":"add_this"
+      },
+      "id":"this_id",
+      "attributes":{
+        "data-href":"key"
+      },
+      "content":"this is the content",
+      "parent":"parent div to attach to"
+    }
+  ]
+}
