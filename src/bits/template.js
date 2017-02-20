@@ -1,6 +1,6 @@
 /**
  * Created by David Maser on 20/02/17.
- * @TODO: handle data backets buikt with the bronko.data object
+ * @TODO: handle data packets built with the bronko.data object
  */
 var template = $$b.template;
 template.collection = collection = {

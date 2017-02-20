@@ -15,7 +15,7 @@ data.capture = function (name,packets) {
         type lets you define if you want to capture packets
         or the root data object. See data.split function
          */
-        return store[name][type];
+        return store[name][type] !== undefined ? store[name][type] : false;
     }
 
     function iterateData(data) {
