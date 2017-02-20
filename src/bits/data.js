@@ -9,26 +9,51 @@ data.store = store = {
         format: 'brut'
     }
 };
-data.capture = function(name){
-    function parseWithKey(name,key){
-        return store[name].data[key];
+data.capture = function (name,packets) {
+    function captureWithKey(name,type) {
+        /*
+        type lets you define if you want to capture packets
+        or the root data object. See data.split function
+         */
+        return store[name][type];
     }
-    function iterateData(data){
-        var accepts = ['attributes','class','content','id','parent','type'];
+
+    function iterateData(data) {
         var type = data['type'];
-        var d;
-        type.indexOf('.') > -1 ? template.build(type.split('.'),data) : template.build(type,data);
+        type.indexOf('.') > -1 ? template.build(type.split('.'), data) : template.build(type, data);
     }
-    if(name !== undefined){
-        if(store[name] !== undefined){
-            if(store[name].key !== undefined){
-                var dataOBJ = parseWithKey(name,store[name].key);
-                if(typeof dataOBJ == 'object'){
-                    for(var d in dataOBJ){
-                        iterateData(dataOBJ[d]);
-                    }
+
+    var rootKey = packets == true ? 'packets' : 'data';
+    if (name !== undefined) {
+        if (store[name] !== undefined) {
+            var dataOBJ = captureWithKey(name,rootKey);
+            if (typeof dataOBJ == 'object') {
+                for (var d in dataOBJ) {
+                    iterateData(dataOBJ[d]);
                 }
             }
         }
     }
+};
+data.split = function(name,qty){
+    /*
+    function splits an existing dataset into packets
+    that can be paginated and called by their index
+    Packets are saved in the bronko data.store object
+    as a new object called 'packets'. Each packet will
+    contain an array of objects containing the number
+    of data entries you define
+     */
+    if(store[name] !== undefined && store[name].data !== undefined && typeof store[name] == 'object'){
+        var data = store[name].data;
+        store[name].packets = {};
+        var i,j,array;
+        for (i=0,j=data.length; i<j; i+=qty) {
+            array = data.slice(i,i+qty);
+            store[name].packets[i] = array;
+        }
+    }
+};
+data.index = function(){
+    return store;
 };
