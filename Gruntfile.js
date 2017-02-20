@@ -56,19 +56,11 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts:{
-        files: '**/*.js',
+        files: ['src/bits/*.js','**/*.json'],
         tasks: ['concat', 'uglify'],
         options: {
           debounceDelay: 250
         }
-      },
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib_test: {
-        files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint:lib_test', 'qunit']
       }
     }
   });
