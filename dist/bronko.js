@@ -60,7 +60,7 @@ data.capture = function(name){
             }
         }
     }
-}
+};
 var flow = $$b.flow;
 flow.schema = {
     entry:{

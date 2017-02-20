@@ -31,4 +31,4 @@ data.capture = function(name){
             }
         }
     }
-}
+};
