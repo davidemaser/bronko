@@ -16,18 +16,18 @@ data.capture = function(name){
     function iterateData(data){
         var accepts = ['attributes','class','content','id','parent','type'];
         var type = data['type'];
-        var typeArray,d;
-        if(type.indexOf('.')>-1){
-            typeArray = type.split('.');
-        }
-        for(d in data){
-            console.log(d,data[d])
-        }
+        var d;
+        type.indexOf('.') > -1 ? template.build(type.split('.'),data) : template.build(type,data);
     }
     if(name !== undefined){
         if(store[name] !== undefined){
             if(store[name].key !== undefined){
-                iterateData(parseWithKey(name,store[name].key)[0]);
+                var dataOBJ = parseWithKey(name,store[name].key);
+                if(typeof dataOBJ == 'object'){
+                    for(var d in dataOBJ){
+                        iterateData(dataOBJ[d]);
+                    }
+                }
             }
         }
     }

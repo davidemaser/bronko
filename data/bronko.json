@@ -2,10 +2,17 @@
   "structure": [
     {
       "type":"html.div",
-      "class":{
-        "base":"this_class",
-        "hover":"add_this"
+      "class":"this_class",
+      "id":"this_id",
+      "attributes":{
+        "data-href":"key"
       },
+      "content":"this is the content",
+      "parent":"parent div to attach to"
+    },
+    {
+      "type":"html.nav",
+      "class":"nav_class",
       "id":"this_id",
       "attributes":{
         "data-href":"key"

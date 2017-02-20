@@ -12,7 +12,6 @@ ajax.init=function(obj){
             url:config.settings.ajax.src.root+obj.url,
             method:config.settings.ajax.method,
             success:function(data){
-                console.log(data);
                 if(obj.name !== undefined){
                     store[obj.name] = {};
                     store[obj.name]['key'] = obj.key || undefined;

@@ -55,6 +55,13 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
     watch: {
+      scripts:{
+        files: '**/*.js',
+        tasks: ['concat', 'uglify'],
+        options: {
+          debounceDelay: 250
+        }
+      },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
@@ -74,6 +81,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['concat', 'uglify']);
+  grunt.registerTask('default', ['concat', 'uglify', 'watch']);
 
 };

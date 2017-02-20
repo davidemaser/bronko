@@ -45,18 +45,18 @@ data.capture = function(name){
     function iterateData(data){
         var accepts = ['attributes','class','content','id','parent','type'];
         var type = data['type'];
-        var typeArray,d;
-        if(type.indexOf('.')>-1){
-            typeArray = type.split('.');
-        }
-        for(d in data){
-            console.log(d,data[d])
-        }
+        var d;
+        type.indexOf('.') > -1 ? template.build(type.split('.'),data) : template.build(type,data);
     }
     if(name !== undefined){
         if(store[name] !== undefined){
             if(store[name].key !== undefined){
-                iterateData(parseWithKey(name,store[name].key)[0]);
+                var dataOBJ = parseWithKey(name,store[name].key);
+                if(typeof dataOBJ == 'object'){
+                    for(var d in dataOBJ){
+                        iterateData(dataOBJ[d]);
+                    }
+                }
             }
         }
     }
@@ -82,7 +82,6 @@ ajax.init=function(obj){
             url:config.settings.ajax.src.root+obj.url,
             method:config.settings.ajax.method,
             success:function(data){
-                console.log(data);
                 if(obj.name !== undefined){
                     store[obj.name] = {};
                     store[obj.name]['key'] = obj.key || undefined;
@@ -105,12 +104,45 @@ ajax.objectify=function(){
 var template = $$b.template;
 template.collection = collection = {
     html:{
-        div:'<div {#attributes}>{#content}</div>'
+        div:'<div {#attributes}>{#content}</div>',
+        nav:'<nav {#attributes}>{#content}</nav>'
     },
     attributes:{
-        id:'id="{#id}"',
         class:'class="{#class}"',
-        name:'name="{#name}"',
-        attributes:'{#key}="{#value}"'
+        id:' id="{#id}"',
+        attributes:' {#key}="{#value}"',
+        name:' name="{#name}"'
+    }
+};
+template.build=function(type,data){
+    if(typeof type == 'object'){
+        var rootOBJ = collection[type[0]];
+        if(typeof rootOBJ == 'object'){
+            pullData(rootOBJ[type[1]],data);
+        }
+    }
+    function pullData(model,data){
+        var attributeString = '';
+        var params = ['class','id','attributes'];
+        var content = data['content'] || null;
+        var parent = data['parent'] || null;
+        for(var p in params){
+            var paramString = collection.attributes[params[p]];
+            if(typeof data[params[p]] == 'object'){
+                var paramOBJ = data[params[p]];
+                for(var po in paramOBJ){
+                    attributeString += paramString.replace('{#key}',po).replace('{#value}',params[p])
+                }
+            }else{
+                attributeString +=paramString.replace('{#'+params[p]+'}',params[p]);
+            }
+        }
+        if(content !== null){
+            model = model.replace('{#content}',content);
+        }
+        if(attributeString !== ''){
+            model = model.replace('{#attributes}',attributeString)
+        }
+        console.log(model);
     }
 };
