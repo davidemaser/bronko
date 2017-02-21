@@ -35,7 +35,7 @@ template.build=function(type,data){
                     attributeString += paramString.replace('{#key}',po).replace('{#value}',params[p])
                 }
             }else{
-                attributeString +=paramString.replace('{#'+params[p]+'}',params[p]);
+                attributeString += paramString.replace('{#'+params[p]+'}',params[p]);
             }
         }
         if(content !== null){

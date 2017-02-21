@@ -14,5 +14,9 @@ config.settings = {
     dom:{
         parent:'html',
         root:'body'
+    },
+    app:{
+        name:'your name',
+        ip:''
     }
 };
