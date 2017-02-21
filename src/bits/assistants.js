@@ -1,7 +1,6 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-var assistants = $$b.assistants;
 assistants.replace = function(str,args){
     /*
     structure of the args object :

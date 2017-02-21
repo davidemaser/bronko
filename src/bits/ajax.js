@@ -1,7 +1,6 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-var ajax = $$b.ajax;
 ajax.init=function(obj){
     /*
     pass object in the following format

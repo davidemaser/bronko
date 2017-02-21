@@ -2,7 +2,6 @@
  * Created by David Maser on 20/02/17.
  * @TODO: handle data packets built with the bronko.data object
  */
-var template = $$b.template;
 template.collection = collection = {
     html:{
         div:'<div {#attributes}>{#content}</div>',

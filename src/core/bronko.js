@@ -2,11 +2,18 @@
  * Created by David Maser on 20/02/17.
  */
 var bronko = {};
-bronko.config = {};
-bronko.log = {};
-bronko.data = {};
-bronko.flow = {};
-bronko.assistants = {};
-bronko.ajax = {};
-bronko.template = {};
+bronko.config = config = {};
+bronko.log = log = {};
+bronko.data = data = {};
+data.store = store = {
+    bronko: {
+        version: '1.0.0',
+        accepts: 'json',
+        format: 'brut'
+    }
+};
+bronko.flow = flow = {};
+bronko.assistants = assistants = {};
+bronko.ajax = ajax = {};
+bronko.template = template = {};
 var $$b = bronko;

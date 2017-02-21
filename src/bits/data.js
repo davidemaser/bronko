@@ -1,14 +1,6 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-var data = $$b.data;
-data.store = store = {
-    bronko: {
-        version: '1.0.0',
-        accepts: 'json',
-        format: 'brut'
-    }
-};
 data.capture = function (name,packets) {
     function captureWithKey(name,type) {
         /*

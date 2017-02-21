@@ -1,7 +1,6 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-var config = $$b.config;
 config.settings = {
     ajax:{
         method:'get',
