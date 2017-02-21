@@ -7,6 +7,7 @@ void 0!==c?null===c?void r.removeAttr(a,b):e&&"set"in e&&void 0!==(d=e.set(a,c,b
 
 var bronko = {};
 bronko.config = config = {};
+bronko.alerts = alerts = {};
 bronko.log = log = {};
 bronko.data = data = {};
 data.store = store = {
@@ -39,7 +40,62 @@ config.settings = {
         ip:''
     }
 };
+alerts.create = function(args){
+    /*
+    args format is the following
+    {type:'error',title:'string',body:'string',log:boolean,delay:5000}
+     */
+    var alertTemplate = {
+        container:'<div class="alert {#type}">{#content}</div>',
+        title:'<div class="alert_title">{#title}</div>',
+        body:'<div class="alert_body">{#body}</div>'
+    };
+    var string = {
+        title:'',
+        body:'',
+        internal:'',
+        export:''
+    };
+    if(typeof args == 'object'){
+        for(var a in args){
+            if(args.hasOwnProperty(a)){
+                if(alertTemplate[a] !== undefined){
+                    string[a] = alertTemplate[a].replace('{#'+a+'}',args[a]);
+                }
+            }
+        }
+        string.internal = string.title+string.body;
+        string.export = alertTemplate.container.replace('{#type}',args['type']).replace('{#content}',string.internal);
+        $.when($(config.settings.dom.root).append(string.export)).done(function(){
+            args.delay !== undefined && args.delay !== 0 ? alerts.destroy(args.delay) : '';
+        })
+    }else{
 
+    }
+};
+alerts.destroy = function (delay) {
+    var _this = $(config.settings.dom.root).find('.alert');
+    if ($(_this).length !== 0) {
+        window.setTimeout(function () {
+            $(_this).animate({
+                opacity: 0
+            }, 500, function () {
+                $(config.settings.dom.root).find('.alert').remove();
+            })
+        }, delay)
+    }
+};
+log.write = function(args){
+    /*
+    args format should be as follows
+    {event:'string',result:'string',error:boolean,caller:'string'}
+     */
+    if(typeof args == 'object'){
+
+    }else{
+        alerts.create({type:'error',title:'Log Error',body:'Unable to write to the log. Expected an object',log:false,delay:5000});
+    }
+};
 data.capture = function (name,packets) {
     function captureWithKey(name,type) {
         /*

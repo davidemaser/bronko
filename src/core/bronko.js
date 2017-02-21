@@ -3,6 +3,7 @@
  */
 var bronko = {};
 bronko.config = config = {};
+bronko.alerts = alerts = {};
 bronko.log = log = {};
 bronko.data = data = {};
 data.store = store = {
