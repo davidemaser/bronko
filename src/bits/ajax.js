@@ -22,7 +22,15 @@ ajax.init=function(obj){
                 }
             },
             error:function(){
-
+                alerts.create({
+                    type:'error',
+                    title:'AJAX Error',
+                    body:'Unable to recover data from the server. The AJAX call failed',
+                    caller:'ajax.init',
+                    log:true,
+                    delay:5000,
+                    speed:300
+                })
             }
         })
     }

@@ -14,6 +14,7 @@ data.store = store = {
     }
 };
 bronko.flow = flow = {};
+bronko.paginate = paginate = {};
 bronko.assistants = assistants = {};
 bronko.ajax = ajax = {};
 bronko.template = template = {};

@@ -20,6 +20,16 @@ template.build=function(type,data){
         if(typeof rootOBJ == 'object'){
             pullData(rootOBJ[type[1]],data);
         }
+    }else{
+        alerts.create({
+            type:'error',
+            title:'Template Build Error',
+            body:'Unable to execute the template build function. Expecting an object',
+            caller:'template.build',
+            log:true,
+            delay:5000,
+            speed:300
+        })
     }
     function pullData(model,data){
         var attributeString = '';

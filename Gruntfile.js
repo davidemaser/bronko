@@ -1,9 +1,6 @@
 /*global module:false*/
 module.exports = function(grunt) {
-
-  // Project configuration.
   grunt.initConfig({
-    // Metadata.
     pkg: grunt.file.readJSON('package.json'),
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -15,7 +12,7 @@ module.exports = function(grunt) {
         stripBanners: true
       },
       dist: {
-        src: ['node_modules/jquery/dist/jquery.min.js','src/core/<%= pkg.name %>.js','src/bits/config.js','src/bits/alerts.js','src/bits/log.js','src/bits/data.js','src/bits/flow.js','src/bits/assistants.js','src/bits/ajax.js','src/bits/template.js'],
+        src: ['node_modules/jquery/dist/jquery.min.js','src/core/<%= pkg.name %>.js','src/bits/config.js','src/bits/alerts.js','src/bits/log.js','src/bits/data.js','src/bits/flow.js','src/bits/paginate.js','src/bits/assistants.js','src/bits/ajax.js','src/bits/template.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -89,7 +86,6 @@ module.exports = function(grunt) {
     }
   });
 
-  // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
@@ -98,7 +94,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // Default task.
   grunt.registerTask('default', ['concat', 'uglify', 'sass', 'cssmin', 'watch']);
 
 };
