@@ -18,6 +18,7 @@ data.store = store = {
     }
 };
 bronko.flow = flow = {};
+bronko.paginate = paginate = {};
 bronko.assistants = assistants = {};
 bronko.ajax = ajax = {};
 bronko.template = template = {};
@@ -162,13 +163,37 @@ data.split = function(name,qty){
     }
 };
 data.index = function(){
-    return store;
+    var nodes = 0;
+    var nodeArray = [];
+    if(typeof store == 'object'){
+        //store exists let's see what's in it
+        for(var s in store){
+            if(store.hasOwnProperty(s) && s !== 'bronko' && s !== 'index'){
+                //the bronko object doesn't count
+                nodeArray.push(s);
+                nodes ++;
+            }
+        }
+        console.log(nodes+' data nodes found');
+        store['index'] = nodeArray;
+    }
 };
 flow.schema = {
     entry:{
 
     },
     exit:{
+
+    }
+};
+paginate.build = build = {
+    model:function(){
+        var dataSet = data.capture(name,false);
+    },
+    index:function(){
+
+    },
+    schema:function(){
 
     }
 };
@@ -230,7 +255,15 @@ ajax.init=function(obj){
                 }
             },
             error:function(){
-
+                alerts.create({
+                    type:'error',
+                    title:'AJAX Error',
+                    body:'Unable to recover data from the server. The AJAX call failed',
+                    caller:'ajax.init',
+                    log:true,
+                    delay:5000,
+                    speed:300
+                })
             }
         })
     }
@@ -260,6 +293,16 @@ template.build=function(type,data){
         if(typeof rootOBJ == 'object'){
             pullData(rootOBJ[type[1]],data);
         }
+    }else{
+        alerts.create({
+            type:'error',
+            title:'Template Build Error',
+            body:'Unable to execute the template build function. Expecting an object',
+            caller:'template.build',
+            log:true,
+            delay:5000,
+            speed:300
+        })
     }
     function pullData(model,data){
         var attributeString = '';

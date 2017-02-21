@@ -47,5 +47,18 @@ data.split = function(name,qty){
     }
 };
 data.index = function(){
-    return store;
+    var nodes = 0;
+    var nodeArray = [];
+    if(typeof store == 'object'){
+        //store exists let's see what's in it
+        for(var s in store){
+            if(store.hasOwnProperty(s) && s !== 'bronko' && s !== 'index'){
+                //the bronko object doesn't count
+                nodeArray.push(s);
+                nodes ++;
+            }
+        }
+        console.log(nodes+' data nodes found');
+        store['index'] = nodeArray;
+    }
 };

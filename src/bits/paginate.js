@@ -1,12 +1,9 @@
 /**
  * Created by David Maser on 21/02/17.
  */
-paginate.assess = function(){
-
-};
 paginate.build = build = {
     model:function(){
-
+        var dataSet = data.capture(name,false);
     },
     index:function(){
 
