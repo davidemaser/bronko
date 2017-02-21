@@ -19,6 +19,30 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
+    sass: {                              // Task
+      dist: {                            // Target
+        options: {                       // Target options
+          style: 'expanded'
+        },
+        files: {                         // Dictionary of files
+          'dist/bronko.css': 'src/scss/bronko.scss'
+        }
+      }
+    },
+    cssmin: {
+      options: {
+        sourceMap:false
+      },
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: ['bronko.css'],
+          dest: 'dist/min',
+          ext: '.min.css'
+        }]
+      }
+    },
     uglify: {
       options: {
         banner: '<%= banner %>'
@@ -68,11 +92,13 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['concat', 'uglify', 'watch']);
+  grunt.registerTask('default', ['concat', 'uglify', 'sass', 'cssmin', 'watch']);
 
 };

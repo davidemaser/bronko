@@ -43,10 +43,15 @@ config.settings = {
 alerts.create = function(args){
     /*
     args format is the following
-    {type:'error',title:'string',body:'string',log:boolean,delay:5000}
+    {type:'error',title:'string',body:'string',caller:'string',log:boolean,delay:5000,speed:300}
      */
+    var _this = $(config.settings.dom.root).find('.alert');
+    var speed = args.speed !== undefined && args.speed !== 0 ? args.speed : 500;
+    if($(_this).length > 0){
+        $(_this).remove();
+    }
     var alertTemplate = {
-        container:'<div class="alert {#type}">{#content}</div>',
+        container:'<div class="alert {#type}" style="bottom: -100px;opacity:0;"><div class="alert_container">{#content}</div></div>',
         title:'<div class="alert_title">{#title}</div>',
         body:'<div class="alert_body">{#body}</div>'
     };
@@ -66,11 +71,16 @@ alerts.create = function(args){
         }
         string.internal = string.title+string.body;
         string.export = alertTemplate.container.replace('{#type}',args['type']).replace('{#content}',string.internal);
-        $.when($(config.settings.dom.root).append(string.export)).done(function(){
+        $(config.settings.dom.root).append(string.export);
+        $.when($('.alert').animate({
+            opacity:1,
+            bottom:0
+        },speed)).done(function(){
             args.delay !== undefined && args.delay !== 0 ? alerts.destroy(args.delay) : '';
+            args.log == true ? log.write({event:args.title,result:args.body,error:args.type == 'error',caller:args.caller,stamp:assistants.dateStamp()}) : '';
         })
     }else{
-
+        console.log('Failed to create the alert object')
     }
 };
 alerts.destroy = function (delay) {
@@ -78,22 +88,26 @@ alerts.destroy = function (delay) {
     if ($(_this).length !== 0) {
         window.setTimeout(function () {
             $(_this).animate({
-                opacity: 0
-            }, 500, function () {
+                opacity: 0,
+                bottom:-100
+            }, speed, function () {
                 $(config.settings.dom.root).find('.alert').remove();
             })
         }, delay)
     }
 };
+log.entries = {};
 log.write = function(args){
     /*
     args format should be as follows
-    {event:'string',result:'string',error:boolean,caller:'string'}
+    {event:'string',result:'string',error:boolean,caller:'string',stamp:'string'}
      */
     if(typeof args == 'object'){
-
+        //log.entries[args.stamp] = {};
+        log.entries[args.stamp] = args;
+        console.log(args);
     }else{
-        alerts.create({type:'error',title:'Log Error',body:'Unable to write to the log. Expected an object',log:false,delay:5000});
+        alerts.create({type:'error',title:'Log Error',body:'Unable to write to the log. Expected an object',caller:'log.write',log:false,delay:5000,speed:300});
     }
 };
 data.capture = function (name,packets) {
@@ -182,6 +196,9 @@ assistants.date = function(string,type){
             return string == true ? formatDate['hours'] + ':' + formatDate['minutes'] + ':' + formatDate['seconds'] : formatDate;
             break;
     }
+};
+assistants.dateStamp = function(){
+    return Math.floor(Date.now() / 1000);
 };
 assistants.repeat = function(str,times){
     return new Array(times + 1).join(str);

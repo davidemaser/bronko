@@ -32,6 +32,9 @@ assistants.date = function(string,type){
             break;
     }
 };
+assistants.dateStamp = function(){
+    return Math.floor(Date.now() / 1000);
+};
 assistants.repeat = function(str,times){
     return new Array(times + 1).join(str);
 };
