@@ -76,7 +76,7 @@ alerts.create = function(args){
             opacity:1,
             bottom:0
         },speed)).done(function(){
-            args.delay !== undefined && args.delay !== 0 ? alerts.destroy(args.delay) : '';
+            args.delay !== undefined && args.delay !== 0 ? alerts.destroy(args.delay) : alerts.events();
             args.log == true ? log.write({event:args.title,result:args.body,error:args.type == 'error',caller:args.caller,stamp:assistants.dateStamp()}) : '';
         })
     }else{
@@ -84,17 +84,23 @@ alerts.create = function(args){
     }
 };
 alerts.destroy = function (delay) {
+    delay = delay || 0;
     var _this = $(config.settings.dom.root).find('.alert');
     if ($(_this).length !== 0) {
         window.setTimeout(function () {
             $(_this).animate({
                 opacity: 0,
                 bottom:-100
-            }, speed, function () {
+            }, 250, function () {
                 $(config.settings.dom.root).find('.alert').remove();
             })
         }, delay)
     }
+};
+alerts.events = function(){
+    $(config.settings.dom.root).on('click','.alert',function(){
+        alerts.destroy()
+    })
 };
 log.entries = {};
 log.write = function(args){
