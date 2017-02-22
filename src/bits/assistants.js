@@ -38,3 +38,12 @@ assistants.dateStamp = function(){
 assistants.repeat = function(str,times){
     return new Array(times + 1).join(str);
 };
+assistants.object = {
+    size:function(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    }
+};

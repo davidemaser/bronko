@@ -21,7 +21,14 @@ data.capture = function (name,packets) {
             var dataOBJ = captureWithKey(name,rootKey);
             if (typeof dataOBJ == 'object') {
                 for (var d in dataOBJ) {
-                    iterateData(dataOBJ[d]);
+                    if(typeof dataOBJ[d] == 'object'){
+                        var obj = dataOBJ[d];
+                        for(var o in obj){
+                            iterateData(obj[o]);
+                        }
+                    }else{
+                        iterateData(dataOBJ[d]);
+                    }
                 }
             }
         }
@@ -60,5 +67,6 @@ data.index = function(){
         }
         console.log(nodes+' data nodes found');
         store['index'] = nodeArray;
+        return store.index;
     }
 };

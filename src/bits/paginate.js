@@ -2,8 +2,14 @@
  * Created by David Maser on 21/02/17.
  */
 paginate.build = build = {
-    model:function(){
-        var dataSet = data.capture(name,false);
+    model:function(name,packets,number){
+        var maxDisplay = number;
+        var dataSet = packets == true ? store[name]['packets'] : store[name]['data'];
+        var objectSize = assistants.object.size(dataSet);
+        console.log(dataSet,assistants.object.size(dataSet));
+        for(var i = 0;i < maxDisplay;i++){
+            console.log('thos',dataSet[i]);
+        }
     },
     index:function(){
 
@@ -12,3 +18,4 @@ paginate.build = build = {
 
     }
 };
+paginate.navigate = navigate = {};
