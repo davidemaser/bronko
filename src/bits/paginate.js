@@ -8,7 +8,7 @@ paginate.build = build = {
         var objectSize = assistants.object.size(dataSet);
         console.log(dataSet,assistants.object.size(dataSet));
         for(var i = 0;i < maxDisplay;i++){
-            console.log('thos',dataSet[i]);
+            dataSet[i] !== undefined ? console.log('thos',dataSet[i]) : '';
         }
     },
     index:function(){
