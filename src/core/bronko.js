@@ -13,7 +13,7 @@ data.store = store = {
         format: 'brut'
     }
 };
-bronko.flow = flow = {};
+bronko.app = app = {};
 bronko.paginate = paginate = {};
 bronko.assistants = assistants = {};
 bronko.ajax = ajax = {};

@@ -17,7 +17,7 @@ data.store = store = {
         format: 'brut'
     }
 };
-bronko.flow = flow = {};
+bronko.app = app = {};
 bronko.paginate = paginate = {};
 bronko.assistants = assistants = {};
 bronko.ajax = ajax = {};
@@ -186,22 +186,43 @@ data.index = function(){
         return store.index;
     }
 };
-flow.schema = {
+app.schema = {
     entry:{
-
+        fn:['ajax.init','args.split','build.model']
     },
     exit:{
 
     }
 };
+app.init = {
+    data:function(args,units){
+        /*
+        args format is the same as for the ajax.init object
+        {url:'bronko.json',name:'root',key:'structure',split:false}
+         */
+        $.when(ajax.init(args)).then(function(){
+            args.split == true ? data.split(args.name,units) : false;
+        }).then(function(){
+            build.model(args.name,args.split,units);
+        }).done(function(){
+            var storeNode = args.split == true ? 'store.'+args.name+'.packets':'store.'+args.name+'.data';
+            console.log('App initialized. Data stored in '+storeNode);
+        })
+
+    }
+};
 paginate.build = build = {
     model:function(name,packets,number){
-        var maxDisplay = number;
-        var dataSet = packets == true ? store[name]['packets'] : store[name]['data'];
-        var objectSize = assistants.object.size(dataSet);
-        console.log(dataSet,assistants.object.size(dataSet));
-        for(var i = 0;i < maxDisplay;i++){
-            dataSet[i] !== undefined ? console.log('thos',dataSet[i]) : '';
+        try {
+            var maxDisplay = number;
+            var dataSet = packets == true ? store[name]['packets'] : store[name]['data'];
+            var objectSize = assistants.object.size(dataSet);
+            var items = Math.round(objectSize / number);
+            for (var i = 0; i < maxDisplay; i++) {
+                dataSet[i] !== undefined ? console.log(dataSet[i]) : '';
+            }
+        }catch(e){
+
         }
     },
     index:function(){

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         stripBanners: true
       },
       dist: {
-        src: ['node_modules/jquery/dist/jquery.min.js','src/core/<%= pkg.name %>.js','src/bits/config.js','src/bits/alerts.js','src/bits/log.js','src/bits/data.js','src/bits/flow.js','src/bits/paginate.js','src/bits/assistants.js','src/bits/ajax.js','src/bits/template.js'],
+        src: ['node_modules/jquery/dist/jquery.min.js','src/core/<%= pkg.name %>.js','src/bits/config.js','src/bits/alerts.js','src/bits/log.js','src/bits/data.js','src/bits/app.js','src/bits/paginate.js','src/bits/assistants.js','src/bits/ajax.js','src/bits/template.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
