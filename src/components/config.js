@@ -1,7 +1,7 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-config.settings = {
+export const settings = {
     ajax:{
         method:'get',
         accepts:'JSON',

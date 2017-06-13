@@ -1,7 +1,15 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-data.capture = function (name,packets) {
+import * as template from './template';
+let store = {
+  bronko: {
+    version: '1.0.0',
+    accepts: 'json',
+    format: 'brut'
+  }
+};
+export function capture(name,packets) {
     function captureWithKey(name,type) {
         /*
         type lets you define if you want to capture packets
@@ -11,19 +19,19 @@ data.capture = function (name,packets) {
     }
 
     function iterateData(data) {
-        var type = data['type'];
+        let type = data['type'];
         type.indexOf('.') > -1 ? template.build(type.split('.'), data) : template.build(type, data);
     }
 
-    var rootKey = packets == true ? 'packets' : 'data';
+    let rootKey = packets === true ? 'packets' : 'data';
     if (name !== undefined) {
         if (store[name] !== undefined) {
-            var dataOBJ = captureWithKey(name,rootKey);
-            if (typeof dataOBJ == 'object') {
-                for (var d in dataOBJ) {
-                    if(typeof dataOBJ[d] == 'object'){
-                        var obj = dataOBJ[d];
-                        for(var o in obj){
+            let dataOBJ = captureWithKey(name,rootKey);
+            if (typeof dataOBJ === 'object') {
+                for (let d in dataOBJ) {
+                    if(typeof dataOBJ[d] === 'object'){
+                        let obj = dataOBJ[d];
+                        for(let o in obj){
                             iterateData(obj[o]);
                         }
                     }else{
@@ -33,8 +41,8 @@ data.capture = function (name,packets) {
             }
         }
     }
-};
-data.split = function(name,qty){
+}
+export function split(name,qty){
     /*
     function splits an existing dataset into packets
     that can be paginated and called by their index
@@ -43,22 +51,22 @@ data.split = function(name,qty){
     contain an array of objects containing the number
     of data entries you define
      */
-    if(store[name] !== undefined && store[name].data !== undefined && typeof store[name] == 'object'){
-        var data = store[name].data;
+    if(store[name] !== undefined && store[name].data !== undefined && typeof store[name] === 'object'){
+        let data = store[name].data;
         store[name].packets = {};
-        var i,j,array;
+        let i,j,array;
         for (i=0,j=data.length; i<j; i+=qty) {
             array = data.slice(i,i+qty);
             store[name].packets[i] = array;
         }
     }
-};
-data.index = function(){
-    var nodes = 0;
-    var nodeArray = [];
-    if(typeof store == 'object'){
+}
+export function index(){
+    let nodes = 0;
+    let nodeArray = [];
+    if(typeof store === 'object'){
         //store exists let's see what's in it
-        for(var s in store){
+        for(let s in store){
             if(store.hasOwnProperty(s) && s !== 'bronko' && s !== 'index'){
                 //the bronko object doesn't count
                 nodeArray.push(s);
@@ -69,4 +77,4 @@ data.index = function(){
         store['index'] = nodeArray;
         return store.index;
     }
-};
+}

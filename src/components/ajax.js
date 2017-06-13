@@ -1,7 +1,8 @@
 /**
  * Created by David Maser on 20/02/17.
  */
-ajax.init=function(obj){
+import * as config from './config';
+export function init(obj){
     /*
     pass object in the following format
     {url:'the_url',name:'unique name for dataset',key:'optional key for data',split:false}
@@ -9,19 +10,19 @@ ajax.init=function(obj){
     packets object. IT WILL NOT however be split into usable packet sizes. To do so
     use the data.split function after the data has been loaded
      */
-    if(typeof obj == 'object'){
-        var type = obj.split == true ? 'packets' : 'data';
+    if(typeof obj === 'object'){
+        let type = obj.split === true ? 'packets' : 'data';
         $.ajax({
             url:config.settings.ajax.src.root+obj.url,
             method:config.settings.ajax.method,
-            success:function(data){
+            success:(data)=>{
                 if(obj.name !== undefined){
                     store[obj.name] = {};
                     store[obj.name]['key'] = obj.key || undefined;
                     store[obj.name][type] = obj.key !== undefined ? data[obj.key] : data;
                 }
             },
-            error:function(){
+            error:()=>{
                 alerts.create({
                     type:'error',
                     title:'AJAX Error',
@@ -36,9 +37,9 @@ ajax.init=function(obj){
     }
 
 };
-ajax.parse=function(){
+export function parselet(){
 
 };
-ajax.objectify=function(){
+export function objectifylet(){
 
 };

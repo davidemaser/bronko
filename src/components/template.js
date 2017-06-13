@@ -2,7 +2,8 @@
  * Created by David Maser on 20/02/17.
  * @TODO: handle data packets built with the bronko.data object
  */
-template.collection = collection = {
+import * as alerts from './alerts';
+export const collection = {
     html:{
         div:'<div {#attributes}>{#content}</div>',
         nav:'<nav {#attributes}>{#content}</nav>'
@@ -14,10 +15,10 @@ template.collection = collection = {
         name:' name="{#name}"'
     }
 };
-template.build=function(type,data){
-    if(typeof type == 'object'){
-        var rootOBJ = collection[type[0]];
-        if(typeof rootOBJ == 'object'){
+export function build(type,data){
+    if(typeof type === 'object'){
+        let rootOBJ = collection[type[0]];
+        if(typeof rootOBJ === 'object'){
             pullData(rootOBJ[type[1]],data);
         }
     }else{
@@ -32,15 +33,15 @@ template.build=function(type,data){
         })
     }
     function pullData(model,data){
-        var attributeString = '';
-        var params = ['class','id','attributes'];
-        var content = data['content'] || null;
-        var parent = data['parent'] || null;
-        for(var p in params){
-            var paramString = collection.attributes[params[p]];
-            if(typeof data[params[p]] == 'object'){
-                var paramOBJ = data[params[p]];
-                for(var po in paramOBJ){
+        let attributeString = '';
+        let params = ['class','id','attributes'];
+        let content = data['content'] || null;
+        let parent = data['parent'] || null;
+        for(let p in params){
+            let paramString = collection.attributes[params[p]];
+            if(typeof data[params[p]] === 'object'){
+                let paramOBJ = data[params[p]];
+                for(let po in paramOBJ){
                     attributeString += paramString.replace('{#key}',po).replace('{#value}',params[p])
                 }
             }else{

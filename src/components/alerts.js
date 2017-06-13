@@ -1,29 +1,31 @@
 /**
  * Created by David Maser on 21/02/17.
  */
-alerts.create = function(args){
+import * as config from './config';
+import * as log from './log';
+export function create(args){
     /*
     args format is the following
     {type:'error',title:'string',body:'string',caller:'string',log:boolean,delay:5000,speed:300}
      */
-    var _this = $(config.settings.dom.root).find('.alert');
-    var speed = args.speed !== undefined && args.speed !== 0 ? args.speed : 500;
+    let _this = $(config.settings.dom.root).find('.alert');
+    let speed = args.speed !== undefined && args.speed !== 0 ? args.speed : 500;
     if($(_this).length > 0){
         $(_this).remove();
     }
-    var alertTemplate = {
+    let alertTemplate = {
         container:'<div class="alert {#type}" style="bottom: -100px;opacity:0;"><div class="alert_container">{#content}</div></div>',
         title:'<div class="alert_title">{#title}</div>',
         body:'<div class="alert_body">{#body}</div>'
     };
-    var string = {
+    let string = {
         title:'',
         body:'',
         internal:'',
         export:''
     };
     if(typeof args == 'object'){
-        for(var a in args){
+        for(let a in args){
             if(args.hasOwnProperty(a)){
                 if(alertTemplate[a] !== undefined){
                     string[a] = alertTemplate[a].replace('{#'+a+'}',args[a]);
@@ -44,9 +46,9 @@ alerts.create = function(args){
         console.log('Failed to create the alert object')
     }
 };
-alerts.destroy = function (delay) {
+export function destroy(delay) {
     delay = delay || 0;
-    var _this = $(config.settings.dom.root).find('.alert');
+    let _this = $(config.settings.dom.root).find('.alert');
     if ($(_this).length !== 0) {
         window.setTimeout(function () {
             $(_this).animate({
@@ -57,9 +59,9 @@ alerts.destroy = function (delay) {
             })
         }, delay)
     }
-};
-alerts.events = function(){
+}
+export function events(){
     $(config.settings.dom.root).on('click','.alert',function(){
         alerts.destroy()
     })
-};
+}

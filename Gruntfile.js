@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         stripBanners: true
       },
       dist: {
-        src: ['node_modules/jquery/dist/jquery.min.js','src/core/<%= pkg.name %>.js','src/bits/config.js','src/bits/alerts.js','src/bits/log.js','src/bits/data.js','src/bits/app.js','src/bits/paginate.js','src/bits/assistants.js','src/bits/ajax.js','src/bits/template.js'],
+        src: ['node_modules/jquery/dist/jquery.min.js','src/core/<%= pkg.name %>.js','src/components/config.js','src/components/alerts.js','src/components/log.js','src/components/data.js','src/components/app.js','src/components/paginate.js','src/components/assistants.js','src/components/ajax.js','src/components/template.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -77,7 +77,7 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts:{
-        files: ['src/bits/*.js','**/*.json'],
+        files: ['src/components/*.js','**/*.json'],
         tasks: ['concat', 'uglify'],
         options: {
           debounceDelay: 250
