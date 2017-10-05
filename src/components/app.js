@@ -4,7 +4,7 @@
 import * as ajax from './ajax';
 import * as data from './data';
 import * as alerts from './alerts';
-export {build} from './paginate';
+import {build} from './paginate';
 let schema = {
     entry:{
         fn:['ajax.init','args.split','build.model']
